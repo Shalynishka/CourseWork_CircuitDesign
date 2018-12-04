@@ -10,7 +10,12 @@ void Stop()
 {
   s.write(90);
   en.EngineA::goBack();
-  while(ir.getDistanceMid() <= 26) continue;
+  while(1)
+{
+  Results r = ir.getAll();
+  if(r.middle > 27 && r.left >= 11 && r.right >= 11) break;
+  delay(100);
+}
   en.stopEngines();  
 }
 void Go()
@@ -18,15 +23,15 @@ void Go()
    s.write(90);
    en.EngineA::goForward();
 }
-void ttR()
+void ttR()    //правее
 {
-  s.write(80);
+  s.write(75);
   delay(700);
   s.write(90);
 }
-void ttL()
+void ttL()    //левее
 {
-  s.write(100);
+  s.write(105);
   delay(700);
   s.write(90);
 }
@@ -61,19 +66,25 @@ void makeDecision()
   }
   if(r.middle < 30)
   {
-    if(r.left > 10)
+    if(r.left > 14)
+    {
       Left();
-    if(r.right > 10)
+    }
+    if(r.right > 14)
+    {
       Right();
-    else 
+    }
+    else
       Stop();
   }
 }
-void setup() {
+void setup()
+{
  s.attach(10);
  s.write(90);
 }
 
-void loop() {
+void loop()
+{
   makeDecision();
 }
